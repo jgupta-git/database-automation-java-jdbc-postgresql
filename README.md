@@ -46,6 +46,11 @@ mvn clean test
 
 Local reports generated at `target/cucumber-html-reports/index.html`
 
+## Project Guide
+
+- **[HTML Guide](database-automation-project-guide.html)** — Interactive web-based guide with styling and diagrams
+- **[Markdown Guide](database-automation-project-guide.md)** — Portable markdown format (easily convertible to PDF)
+
 ## Architecture
 
 - **config/** — DbConfig loads db.properties
