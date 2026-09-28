@@ -40,7 +40,11 @@ Download from: https://www.postgresqltutorial.com/postgresql-getting-started/pos
 mvn clean test
 ```
 
-Reports at `target/cucumber-reports/cucumber.json`
+## Reports
+
+**Live Cucumber HTML Report:** https://jgupta-git.github.io/database-automation-java-jdbc-postgresql/
+
+Local reports generated at `target/cucumber-html-reports/index.html`
 
 ## Architecture
 
