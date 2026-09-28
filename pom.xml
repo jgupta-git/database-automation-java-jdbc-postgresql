@@ -42,12 +42,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-json-formatter</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -65,13 +59,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
-                <executions>
-                    <execution>
-                        <id>default-jar</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
+                <configuration>
+                    <skipIfEmpty>true</skipIfEmpty>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.masterthought</groupId>
@@ -79,18 +69,19 @@
                 <version>5.8.2</version>
                 <executions>
                     <execution>
-                        <id>execution</id>
+                        <id>generate-cucumber-report</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <projectName>Database Automation</projectName>
-                            <outputDirectory>target/cucumber-html-reports</outputDirectory>
-                            <inputDirectory>target/cucumber-reports</inputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
                             <jsonFiles>
-                                <jsonFile>target/cucumber-reports/cucumber.json</jsonFile>
+                                <param>**/*.json</param>
                             </jsonFiles>
+                            <checkBuildResult>false</checkBuildResult>
                         </configuration>
                     </execution>
                 </executions>
