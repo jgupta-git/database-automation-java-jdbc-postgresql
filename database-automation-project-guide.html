@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreSQL Database Automation Project Guide</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-alt: #eef1f6;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --accent: #0369a1;
+  --accent-light: #e0f2fe;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --border: #e2e8f0;
+  --code-bg: #1e293b;
+  --code-text: #e2e8f0;
+  --tag-bg: #dbeafe;
+  --tag-text: #1d4ed8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-alt: #293548;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-light: #0c4a6e;
+    --green: #4ade80;
+    --green-light: #14532d;
+    --orange: #fb923c;
+    --orange-light: #431407;
+    --red: #f87171;
+    --red-light: #7f1d1d;
+    --border: #334155;
+    --code-bg: #0f172a;
+    --code-text: #cbd5e1;
+    --tag-bg: #1e3a5f;
+    --tag-text: #7dd3fc;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-alt: #293548;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-light: #0c4a6e;
+  --green: #4ade80;
+  --green-light: #14532d;
+  --orange: #fb923c;
+  --orange-light: #431407;
+  --red: #f87171;
+  --red-light: #7f1d1d;
+  --border: #334155;
+  --code-bg: #0f172a;
+  --code-text: #cbd5e1;
+  --tag-bg: #1e3a5f;
+  --tag-text: #7dd3fc;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  padding-inline: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 2rem 0 0.25rem;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text);
+  text-wrap: balance;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--text);
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0.75rem 0;
+}
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85em;
+  background: var(--surface-alt);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin: 0.75rem 0;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+.tag {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.tag.green { background: var(--green-light); color: var(--green); }
+.tag.orange { background: var(--orange-light); color: var(--orange); }
+.tag.red { background: var(--red-light); color: var(--red); }
+.count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+.count-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.stat-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.stat { text-align: center; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 0.75rem 0;
+}
+th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td { border-bottom: none; }
+
+.tree {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+.tree .dir { color: var(--accent); font-weight: 500; }
+.tree .file { color: var(--text); }
+
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+  font-size: 0.88rem;
+}
+.flow-box {
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.badge.java { background: #f4a261; color: #fff; }
+.badge.jdbc { background: #2a9d8f; color: #fff; }
+.badge.postgres { background: #336791; color: #fff; }
+.badge.cucumber { background: #23d366; color: #000; }
+    </style>
+</head>
+<body>
+
+<h1>PostgreSQL Database Automation</h1>
+<p class="subtitle">database-automation-java-jdbc-postgresql &mdash; Quick Reference</p>
+
+<div class="stat-row">
+  <div class="stat"><div class="count">10</div><div class="count-label">Test Scenarios</div></div>
+  <div class="stat"><div class="count">4</div><div class="count-label">Feature Files</div></div>
+  <div class="stat"><div class="count">5</div><div class="count-label">DAO Classes</div></div>
+  <div class="stat"><div class="count">15+</div><div class="count-label">Database Tables</div></div>
+</div>
+
+<h2>Tech Stack</h2>
+<div class="card">
+  <span class="badge java">Java 11</span>
+  <span class="badge jdbc">JDBC</span>
+  <span class="badge postgres">PostgreSQL 18</span>
+  <span class="badge cucumber">Cucumber 7.34.9</span>
+  <span class="badge">JUnit 4.13.2</span>
+  <span class="badge">Maven 3.9.9</span>
+</div>
+
+<h2>Architecture</h2>
+
+<div class="flow-row">
+  <span class="flow-box">Feature Files (Gherkin)</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-box">Step Definitions</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-box">DAO Services</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-box">JDBC Connections</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-box">PostgreSQL DB</span>
+</div>
+
+<div class="card">
+<h3>Project Structure</h3>
+<pre style="font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; line-height: 1.8; background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 6px; color: var(--text); overflow-x: auto;">
+<span style="color: var(--accent); font-weight: 500;">src/test/java/com/dvdrental/db/</span>
+├── <span style="color: var(--accent); font-weight: 500;">config/</span>
+│   └── DbConfig.java
+├── <span style="color: var(--accent); font-weight: 500;">dao/</span>
+│   ├── CustomerDao.java
+│   ├── RentalDao.java
+│   └── RevenueDao.java
+├── <span style="color: var(--accent); font-weight: 500;">steps/</span>
+│   ├── CrudSteps.java
+│   ├── RentalHistorySteps.java
+│   ├── RevenueSteps.java
+│   └── ConstraintSteps.java
+├── <span style="color: var(--accent); font-weight: 500;">hooks/</span>
+│   └── DbHooks.java
+└── <span style="color: var(--accent); font-weight: 500;">runners/</span>
+    └── DvdRentalRunner.java
+
+<span style="color: var(--accent); font-weight: 500;">src/test/resources/</span>
+├── db.properties
+├── cucumber.properties
+└── <span style="color: var(--accent); font-weight: 500;">features/</span>
+    ├── crud_operations.feature
+    ├── rental_history.feature
+    ├── revenue_by_category.feature
+    └── data_integrity.feature
+</pre>
+
+<h3>Package Responsibilities</h3>
+<ul>
+  <li><strong>config/</strong> — Database connection configuration (loads db.properties)</li>
+  <li><strong>dao/</strong> — Data Access Objects: CustomerDao, RentalDao, RevenueDao encapsulate SQL queries</li>
+  <li><strong>steps/</strong> — Cucumber step definitions: CrudSteps, RentalHistorySteps, RevenueSteps, ConstraintSteps</li>
+  <li><strong>hooks/</strong> — Test lifecycle: @Before (DB connect), @After (cleanup), Scenario logging</li>
+  <li><strong>runners/</strong> — Cucumber test runner with JSON + pretty output plugins</li>
+  <li><strong>features/</strong> — Gherkin feature files (BDD scenarios)</li>
+</ul>
+</div>
+
+<h2>Test Scenarios (10 Total)</h2>
+
+<div class="card" style="overflow-x:auto">
+<table>
+<tr><th>Feature</th><th>Scenarios</th><th>Type</th><th>Coverage</th></tr>
+<tr><td><code>crud_operations</code></td><td>3 (Outline)</td><td><span class="tag green">Functional</span></td><td>INSERT address/customer, SELECT email, UPDATE email, DELETE customer with cleanup</td></tr>
+<tr><td><code>rental_history</code></td><td>3</td><td><span class="tag green">Functional</span></td><td>5-table JOIN (customer→rental→inventory→film→category), ASC/DESC sort validation</td></tr>
+<tr><td><code>revenue_by_category</code></td><td>1</td><td><span class="tag green">Functional</span></td><td>GROUP BY category, SUM(amount), ORDER BY revenue DESC, count validation</td></tr>
+<tr><td><code>data_integrity</code></td><td>3</td><td><span class="tag red">Negative</span></td><td>FK constraint (invalid customer_id), unique constraint (duplicate email), NOT NULL (missing address_id)</td></tr>
+</table>
+</div>
+
+<h2>Database Design</h2>
+
+<div class="card">
+<h3>DVD Rental Schema (15+ Tables)</h3>
+<p>PostgreSQL sample database from <a href="https://www.postgresqltutorial.com/" target="_blank">postgresqltutorial.com</a></p>
+<ul style="column-count: 2;">
+  <li><code>customer</code> — customer_id (PK), first_name, last_name, email, address_id (FK)</li>
+  <li><code>address</code> — address_id (PK), address, district, city_id (FK), postal_code, phone</li>
+  <li><code>rental</code> — rental_id (PK), rental_date, customer_id (FK), inventory_id (FK)</li>
+  <li><code>inventory</code> — inventory_id (PK), film_id (FK), store_id (FK)</li>
+  <li><code>film</code> — film_id (PK), title, release_year, rating</li>
+  <li><code>film_category</code> — film_id (FK), category_id (FK)</li>
+  <li><code>category</code> — category_id (PK), name</li>
+  <li><code>payment</code> — payment_id (PK), customer_id (FK), rental_id (FK), amount, payment_date</li>
+</ul>
+</div>
+
+<h2>Key Technical Patterns</h2>
+
+<div class="grid-2">
+<div class="card">
+<h3>JDBC Connection Management</h3>
+<pre><code>Class.forName(DbConfig.getDriver());
+Connection conn = DriverManager.getConnection(
+  DbConfig.getUrl(),
+  DbConfig.getUser(),
+  DbConfig.getPassword()
+);
+try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+  stmt.setInt(1, customerId);
+  ResultSet rs = stmt.executeQuery();
+}</code></pre>
+</div>
+
+<div class="card">
+<h3>Multi-table JOIN Query</h3>
+<pre><code>SELECT c.first_name || ' ' || c.last_name AS full_name,
+       r.rental_date, f.title, ct.name AS category
+FROM rental r
+JOIN customer c USING (customer_id)
+JOIN inventory i USING (inventory_id)
+JOIN film f USING (film_id)
+JOIN film_category fc USING (film_id)
+JOIN category ct USING (category_id)
+WHERE c.customer_id = ?
+ORDER BY r.rental_date ASC</code></pre>
+</div>
+
+<div class="card">
+<h3>Aggregate with GROUP BY</h3>
+<pre><code>SELECT ct.name AS category,
+       SUM(p.amount) AS total_revenue
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category ct ON fc.category_id = ct.category_id
+GROUP BY ct.name
+ORDER BY total_revenue DESC</code></pre>
+</div>
+
+<div class="card">
+<h3>Scenario Outline with Examples</h3>
+<pre><code>Scenario Outline: Insert customer
+  When user inserts customer &lt;id&gt; "&lt;first&gt;" "&lt;last&gt;"
+  Then customer &lt;id&gt; email should be "&lt;email&gt;"
+
+Examples:
+  | id  | first | last  | email         |
+  | 600 | Angel | Broom | angel@abc.com |
+  | 601 | Fairy | Smith | fairy@abc.com |</code></pre>
+</div>
+
+<div class="card">
+<h3>Constraint Violation Testing</h3>
+<pre><code>@When("user tries to insert rental with invalid customer ID")
+public void invalid_rental() {
+  try {
+    String sql = "INSERT INTO rental (inventory_id, customer_id, rental_date)
+                   VALUES (1, 9999, NOW())";
+    stmt.executeUpdate(sql);
+  } catch (SQLException e) {
+    lastException = e;
+  }
+}
+
+@Then("foreign key constraint should be violated")
+public void fk_violated() {
+  assertTrue(
+    lastException.getMessage().contains("foreign key")
+    || lastException.getMessage().contains("violates")
+  );
+}</code></pre>
+</div>
+
+<div class="card">
+<h3>Response Logging to Cucumber Report</h3>
+<pre><code>@Then("customer {int} email should be {string}")
+public void customer_email(int id, String expected) {
+  String actual = dao.getCustomerEmail(id);
+  String message = "[RESULT] Customer " + id + " email: " + actual;
+
+  // Attach to Cucumber HTML report
+  DbHooks.getScenario().attach(message, "text/plain", "email_" + id);
+
+  assertEquals(expected, actual);
+}</code></pre>
+</div>
+</div>
+
+<h2>Running Tests</h2>
+
+<div class="card">
+<h3>Maven Commands</h3>
+<pre><code># Run all tests (default db-all profile)
+mvn clean verify
+
+# Run with specific profile
+mvn clean verify -P db-all
+mvn clean verify -P db-crud
+
+# Skip tests
+mvn clean install -DskipTests</code></pre>
+</div>
+
+<h2>Reports & CI/CD</h2>
+
+<div class="card">
+<h3>Cucumber HTML Reports</h3>
+<ul>
+  <li><strong>Local:</strong> <code>target/cucumber-html-reports/overview-features.html</code></li>
+  <li><strong>Jenkins:</strong> Published via "Publish HTML reports" post-build action</li>
+  <li><strong>Live URL:</strong> <a href="https://jgupta-git.github.io/database-automation-java-jdbc-postgresql/" target="_blank">GitHub Pages</a></li>
+</ul>
+
+<h3>Jenkins Integration</h3>
+<ul>
+  <li><strong>Job Name:</strong> psql_run</li>
+  <li><strong>Build Command:</strong> <code>mvn clean verify -P db-all</code></li>
+  <li><strong>Report Archive:</strong> <code>target/cucumber-html-reports</code></li>
+  <li><strong>Report URL Pattern:</strong> <code>http://localhost:8080/job/psql_run/lastSuccessfulBuild/Cucumber_20Report/</code></li>
+</ul>
+
+<h3>GitHub Pages Deployment</h3>
+<p>Reports auto-publish to <code>gh-pages</code> branch after successful Jenkins run. Accessible at:</p>
+<pre><code>https://jgupta-git.github.io/database-automation-java-jdbc-postgresql/</code></pre>
+</div>
+
+<h2>Performance Notes</h2>
+
+<div class="card">
+<ul>
+  <li>All 10 tests execute in ~1.5-2 seconds locally</li>
+  <li>Jenkins runs complete in ~8-9 seconds including Maven setup</li>
+  <li>Cucumber reporting plugin adds ~2 seconds for HTML generation</li>
+  <li>@Before/@After hooks handle connection pooling via static DAO initialization</li>
+  <li>PreparedStatements prevent SQL injection and cache execution plans</li>
+</ul>
+</div>
+
+<h2>References</h2>
+
+<div class="card">
+<ul>
+  <li><strong>PostgreSQL:</strong> <a href="https://www.postgresql.org/docs/" target="_blank">Official Documentation</a></li>
+  <li><strong>JDBC:</strong> <a href="https://docs.oracle.com/javase/tutorial/jdbc/" target="_blank">Oracle JDBC Tutorial</a></li>
+  <li><strong>Cucumber:</strong> <a href="https://cucumber.io/docs/" target="_blank">Behavior Driven Development</a></li>
+  <li><strong>DVD Rental Database:</strong> <a href="https://www.postgresqltutorial.com/postgresql-getting-started/postgresql-sample-database/" target="_blank">Download & Setup</a></li>
+  <li><strong>GitHub Repository:</strong> <a href="https://github.com/jgupta-git/database-automation-java-jdbc-postgresql" target="_blank">jgupta-git/database-automation-java-jdbc-postgresql</a></li>
+</ul>
+</div>
+
+<div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+  <p>Last updated: 2026-09-28 | Built with Java 11 • JDBC • PostgreSQL • Cucumber • Maven</p>
+</div>
+
+</body>
+</html>
