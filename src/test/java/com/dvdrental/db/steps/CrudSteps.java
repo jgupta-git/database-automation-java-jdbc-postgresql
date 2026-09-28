@@ -26,7 +26,7 @@ public class CrudSteps {
     public void customer_email_should_be(int customerId, String expectedEmail) throws SQLException {
         String actual = customerDao.getCustomerEmail(customerId);
         String message = "[RESULT] Customer " + customerId + " email: " + actual;
-        DbHooks.getScenario().log(message);
+        DbHooks.getScenario().attach(message, "text/plain", "customer_email_" + customerId);
         assertEquals("Email mismatch", expectedEmail, actual);
         lastEmail = actual;
     }

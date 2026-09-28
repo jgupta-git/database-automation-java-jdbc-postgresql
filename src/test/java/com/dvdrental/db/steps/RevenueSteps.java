@@ -17,12 +17,13 @@ public class RevenueSteps {
         revenueDao.connect();
         revenueData = revenueDao.getRevenueByCategory();
         revenueDao.disconnect();
-        DbHooks.getScenario().log("[RESULT] Revenue by category: " + revenueData.size() + " categories");
+        StringBuilder output = new StringBuilder("[RESULT] Revenue by category: " + revenueData.size() + " categories\n");
         for (int i = 0; i < Math.min(3, revenueData.size()); i++) {
             Map<String, Object> row = revenueData.get(i);
-            DbHooks.getScenario().log("  [" + (i+1) + "] " + row.get("category") + " = $" + row.get("total_revenue"));
+            output.append("  [").append(i+1).append("] ").append(row.get("category")).append(" = $").append(row.get("total_revenue")).append("\n");
         }
-        if (revenueData.size() > 3) DbHooks.getScenario().log("  ... and " + (revenueData.size() - 3) + " more");
+        if (revenueData.size() > 3) output.append("  ... and ").append(revenueData.size() - 3).append(" more");
+        DbHooks.getScenario().attach(output.toString(), "text/plain", "revenue_by_category");
     }
 
     @Then("revenue data should have {int} categories")
