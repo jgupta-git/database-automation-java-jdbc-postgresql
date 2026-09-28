@@ -4,7 +4,6 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import com.dvdrental.db.dao.RentalDao;
 import com.dvdrental.db.hooks.DbHooks;
-import com.dvdrental.db.config.ExtentReportsManager;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,7 +24,7 @@ public class RentalHistorySteps {
             output.append("  [").append(i+1).append("] ").append(row.get("full_name")).append(" | ").append(row.get("rental_date")).append(" | ").append(row.get("title")).append("\n");
         }
         if (rentalHistory.size() > 3) output.append("  ... and ").append(rentalHistory.size() - 3).append(" more");
-        ExtentReportsManager.logInfo(output.toString());
+        DbHooks.getScenario().attach(output.toString(), "text/plain", "rental_history_" + customerId);
     }
 
     @Then("rental history should have at least {int} records")
@@ -53,7 +52,7 @@ public class RentalHistorySteps {
         StringBuilder output = new StringBuilder("[RESULT] Rental history for customer " + customerId + " sorted " + order + ": " + rentalHistory.size() + " records\n");
         output.append("  [FIRST] ").append(rentalHistory.get(0).get("rental_date")).append("\n");
         output.append("  [LAST] ").append(rentalHistory.get(rentalHistory.size()-1).get("rental_date"));
-        ExtentReportsManager.logInfo(output.toString());
+        DbHooks.getScenario().attach(output.toString(), "text/plain", "rental_history_sorted_" + customerId + "_" + order);
     }
 
     @Then("first rental date should not be null")

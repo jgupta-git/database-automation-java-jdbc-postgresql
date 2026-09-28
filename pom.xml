@@ -42,12 +42,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <version>5.1.1</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

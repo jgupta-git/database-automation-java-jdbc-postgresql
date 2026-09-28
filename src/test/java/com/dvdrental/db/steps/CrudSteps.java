@@ -5,7 +5,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.Given;
 import com.dvdrental.db.dao.CustomerDao;
 import com.dvdrental.db.hooks.DbHooks;
-import com.dvdrental.db.config.ExtentReportsManager;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 
@@ -27,7 +26,7 @@ public class CrudSteps {
     public void customer_email_should_be(int customerId, String expectedEmail) throws SQLException {
         String actual = customerDao.getCustomerEmail(customerId);
         String message = "[RESULT] Customer " + customerId + " email: " + actual;
-        ExtentReportsManager.logInfo(message);
+        DbHooks.getScenario().attach(message, "text/plain", "customer_email_" + customerId);
         assertEquals("Email mismatch", expectedEmail, actual);
         lastEmail = actual;
     }

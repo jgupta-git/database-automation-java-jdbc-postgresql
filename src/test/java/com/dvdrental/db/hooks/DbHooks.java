@@ -4,13 +4,11 @@ import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
 import com.dvdrental.db.dao.CustomerDao;
-import com.dvdrental.db.config.ExtentReportsManager;
 import java.sql.*;
 
 public class DbHooks {
     private static CustomerDao customerDao = new CustomerDao();
     private static Scenario currentScenario;
-    private static boolean reportsInitialized = false;
 
     public static CustomerDao getCustomerDao() {
         return customerDao;
@@ -22,12 +20,7 @@ public class DbHooks {
 
     @Before
     public void setup(Scenario scenario) throws SQLException {
-        if (!reportsInitialized) {
-            ExtentReportsManager.initReports();
-            reportsInitialized = true;
-        }
         currentScenario = scenario;
-        ExtentReportsManager.createTest(scenario.getName());
         customerDao.connect();
     }
 
