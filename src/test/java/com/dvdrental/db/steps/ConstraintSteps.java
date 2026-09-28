@@ -15,7 +15,7 @@ public class ConstraintSteps {
         try {
             Class.forName(DbConfig.getDriver());
             connection = DriverManager.getConnection(DbConfig.getUrl(), DbConfig.getUser(), DbConfig.getPassword());
-            String sql = "INSERT INTO rental (inventory_id, customer_id, rental_date) VALUES (1, 999999, NOW())";
+            String sql = "INSERT INTO rental (inventory_id, customer_id, rental_date) VALUES (1, 9999, NOW())";
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
