@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script src="js/Chart.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<link rel="stylesheet" href="css/cucumber.css" type="text/css"/>
+<link rel="stylesheet" href="css/font-awesome.min.css"/>
+<link rel="shortcut icon" href="images/favicon.png"/>
+
+<script>
+$(document).ready(function() {
+    // this will tell tablesorter to try looking for the data-value attribute
+    // if present, it'll sort by that instead
+    // otherwise, it'll sort by the text content of the table cell
+    $("#tablesorter").tablesorter({
+        textAttribute: 'data-value',
+        // ignores the first row of the header, the 'scenario', 'steps', since
+        // sorting those doesn't make sense
+        selectorHeaders: '> thead tr:not(.dont-sort) th',
+        // use a stable sort
+        sortStable: true
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<title>Cucumber Reports (no 1) - Steps Overview</title>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navigation">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <p class="navbar-text navbar-left">Cucumber Report</p>
+      <ul class="nav navbar-nav navbar-right">
+        <li role="presentation" ><a href="overview-features.html">Features</a></li>
+        <li role="presentation" ><a href="overview-tags.html">Tags</a></li>
+        <li role="presentation"     class="active" ><a href="overview-steps.html">Steps</a></li>
+        <li role="presentation" ><a href="overview-failures.html">Failures</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+  <div class="col-md-5 col-md-offset-1">
+
+<table class="table table-bordered" id="build-info">
+  <thead>
+    <tr>
+      <th>Project</th>
+        <th>Number</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="info">
+      <td>Database Automation</td>
+        <td>1</td>
+      <td>28 Sep 2026, 11:39</td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+  <div class="col-md-3 col-md-offset-2">
+  </div>
+</div>
+
+
+<div id="report-lead" class="container-fluid">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>Steps Statistics</h2>
+      <p>The following graph shows step statistics for this build. Below list is based on results.
+ step does not provide information about result then is not listed below.
+ Additionally @Before and @After are not counted because they are part of the scenarios, not steps.</p>
+  </div>
+</div>
+
+<div class="container-fluid" id="report">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <table id="tablesorter" class="stats-table table-hover">
+
+        <thead>
+          <tr class="header">
+            <th>Implementation</th>
+            <th>Occurrences</th>
+            <th>Average duration</th>
+            <th>Max duration</th>
+            <th>Total durations</th>
+            <th>Ratio</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+              <td class="location">com.dvdrental.db.hooks.DbHooks.cleanup()</td>
+              <td>10</td>
+              <td class="duration" data-value="4839790">0.004</td>
+              <td class="duration" data-value="4839790">0.016</td>
+              <td class="duration" data-value="48397900">0.048</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.hooks.DbHooks.setup(io.cucumber.java.Scenario)</td>
+              <td>10</td>
+              <td class="duration" data-value="68840120">0.068</td>
+              <td class="duration" data-value="68840120">0.165</td>
+              <td class="duration" data-value="688401200">0.688</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.foreign_key_constraint_violated()</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.not_null_constraint_violated()</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.unique_constraint_violated()</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.user_tries_duplicate_email()</td>
+              <td>1</td>
+              <td class="duration" data-value="18578000">0.018</td>
+              <td class="duration" data-value="18578000">0.018</td>
+              <td class="duration" data-value="18578000">0.018</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.user_tries_invalid_customer_rental()</td>
+              <td>1</td>
+              <td class="duration" data-value="141741400">0.141</td>
+              <td class="duration" data-value="141741400">0.141</td>
+              <td class="duration" data-value="141741400">0.141</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.ConstraintSteps.user_tries_null_address_id()</td>
+              <td>1</td>
+              <td class="duration" data-value="33593900">0.033</td>
+              <td class="duration" data-value="33593900">0.033</td>
+              <td class="duration" data-value="33593900">0.033</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.customer_email_should_be(int,java.lang.String)</td>
+              <td>6</td>
+              <td class="duration" data-value="2934133">0.002</td>
+              <td class="duration" data-value="2934133">0.010</td>
+              <td class="duration" data-value="17604800">0.017</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.customer_should_not_exist(int)</td>
+              <td>3</td>
+              <td class="duration" data-value="3570500">0.003</td>
+              <td class="duration" data-value="3570500">0.006</td>
+              <td class="duration" data-value="10711500">0.010</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.user_deletes_customer(int)</td>
+              <td>3</td>
+              <td class="duration" data-value="4166566">0.004</td>
+              <td class="duration" data-value="4166566">0.007</td>
+              <td class="duration" data-value="12499700">0.012</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.user_inserts_address(int,java.lang.String,java.lang.String,int,java.lang.String,java.lang.String)</td>
+              <td>3</td>
+              <td class="duration" data-value="9253133">0.009</td>
+              <td class="duration" data-value="9253133">0.023</td>
+              <td class="duration" data-value="27759400">0.027</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.user_inserts_customer(int,java.lang.String,java.lang.String,java.lang.String,int,int)</td>
+              <td>3</td>
+              <td class="duration" data-value="2116233">0.002</td>
+              <td class="duration" data-value="2116233">0.006</td>
+              <td class="duration" data-value="6348700">0.006</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.CrudSteps.user_updates_customer_email(int,java.lang.String)</td>
+              <td>3</td>
+              <td class="duration" data-value="5462033">0.005</td>
+              <td class="duration" data-value="5462033">0.011</td>
+              <td class="duration" data-value="16386100">0.016</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.each_rental_record_should_have_fields()</td>
+              <td>1</td>
+              <td class="duration" data-value="999500">0.000</td>
+              <td class="duration" data-value="999500">0.000</td>
+              <td class="duration" data-value="999500">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.first_rental_date_should_not_be_null()</td>
+              <td>2</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.rental_dates_should_be_ordered(java.lang.String)</td>
+              <td>2</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.rental_history_should_have_records(int)</td>
+              <td>3</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.user_fetches_rental_history(int)</td>
+              <td>1</td>
+              <td class="duration" data-value="44146200">0.044</td>
+              <td class="duration" data-value="44146200">0.044</td>
+              <td class="duration" data-value="44146200">0.044</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RentalHistorySteps.user_fetches_rental_history_sorted(int,java.lang.String)</td>
+              <td>2</td>
+              <td class="duration" data-value="39065600">0.039</td>
+              <td class="duration" data-value="39065600">0.041</td>
+              <td class="duration" data-value="78131200">0.078</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RevenueSteps.each_revenue_record_should_have_fields()</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RevenueSteps.revenue_data_should_have_categories(int)</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RevenueSteps.revenue_should_be_ordered_descending()</td>
+              <td>1</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="duration" data-value="0">0.000</td>
+              <td class="passed">100.00%</td>
+            </tr>
+            <tr>
+              <td class="location">com.dvdrental.db.steps.RevenueSteps.user_fetches_revenue()</td>
+              <td>1</td>
+              <td class="duration" data-value="33438500">0.033</td>
+              <td class="duration" data-value="33438500">0.033</td>
+              <td class="duration" data-value="33438500">0.033</td>
+              <td class="passed">100.00%</td>
+            </tr>
+        </tbody>
+
+        <tfoot class="total">
+          <tr>
+            <td>24</td>
+            <td>62</td>
+            <td class="duration">0.019</td>
+            <td class="duration">0.688</td>
+            <td class="duration">1.178</td>
+            <td>Totals</td>
+          </tr>
+        </tfoot>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-default" id="footer">
+  <div class="container-fluid">
+    <p class="navbar-text navbar-right">
+        <small>generate Cucumber HTML reports via:&nbsp;</small>
+        <a class="navbar-link" href="https://github.com/jenkinsci/cucumber-reports-plugin">Jenkins Plugin</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/cucumber-reporting">Standalone</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/cucumber-sandwich">Sandwich</a> |
+        <a class="navbar-link" href="https://github.com/damianszczepanik/maven-cucumber-reporting">Maven</a>
+        &nbsp;&nbsp;
+    </p>
+  </div>
+</nav>
+
+</body>
+</html>
