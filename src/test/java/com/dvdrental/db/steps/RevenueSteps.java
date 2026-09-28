@@ -3,6 +3,7 @@ package com.dvdrental.db.steps;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import com.dvdrental.db.dao.RevenueDao;
+import com.dvdrental.db.hooks.DbHooks;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -16,12 +17,12 @@ public class RevenueSteps {
         revenueDao.connect();
         revenueData = revenueDao.getRevenueByCategory();
         revenueDao.disconnect();
-        System.out.println("[RESULT] Revenue by category: " + revenueData.size() + " categories");
+        DbHooks.getScenario().log("[RESULT] Revenue by category: " + revenueData.size() + " categories");
         for (int i = 0; i < Math.min(3, revenueData.size()); i++) {
             Map<String, Object> row = revenueData.get(i);
-            System.out.println("  [" + (i+1) + "] " + row.get("category") + " = $" + row.get("total_revenue"));
+            DbHooks.getScenario().log("  [" + (i+1) + "] " + row.get("category") + " = $" + row.get("total_revenue"));
         }
-        if (revenueData.size() > 3) System.out.println("  ... and " + (revenueData.size() - 3) + " more");
+        if (revenueData.size() > 3) DbHooks.getScenario().log("  ... and " + (revenueData.size() - 3) + " more");
     }
 
     @Then("revenue data should have {int} categories")

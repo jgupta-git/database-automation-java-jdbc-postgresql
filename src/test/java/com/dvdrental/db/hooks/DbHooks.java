@@ -2,18 +2,25 @@ package com.dvdrental.db.hooks;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import com.dvdrental.db.dao.CustomerDao;
 import java.sql.*;
 
 public class DbHooks {
     private static CustomerDao customerDao = new CustomerDao();
+    private static Scenario currentScenario;
 
     public static CustomerDao getCustomerDao() {
         return customerDao;
     }
 
+    public static Scenario getScenario() {
+        return currentScenario;
+    }
+
     @Before
-    public void setup() throws SQLException {
+    public void setup(Scenario scenario) throws SQLException {
+        currentScenario = scenario;
         customerDao.connect();
     }
 

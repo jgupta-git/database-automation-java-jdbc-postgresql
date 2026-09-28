@@ -3,6 +3,7 @@ package com.dvdrental.db.steps;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import com.dvdrental.db.dao.RentalDao;
+import com.dvdrental.db.hooks.DbHooks;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -17,12 +18,12 @@ public class RentalHistorySteps {
         rentalDao.connect();
         rentalHistory = rentalDao.getRentalHistory(customerId);
         rentalDao.disconnect();
-        System.out.println("[RESULT] Rental history for customer " + customerId + ": " + rentalHistory.size() + " records");
+        DbHooks.getScenario().log("[RESULT] Rental history for customer " + customerId + ": " + rentalHistory.size() + " records");
         for (int i = 0; i < Math.min(3, rentalHistory.size()); i++) {
             Map<String, Object> row = rentalHistory.get(i);
-            System.out.println("  [" + (i+1) + "] " + row.get("full_name") + " | " + row.get("rental_date") + " | " + row.get("title"));
+            DbHooks.getScenario().log("  [" + (i+1) + "] " + row.get("full_name") + " | " + row.get("rental_date") + " | " + row.get("title"));
         }
-        if (rentalHistory.size() > 3) System.out.println("  ... and " + (rentalHistory.size() - 3) + " more");
+        if (rentalHistory.size() > 3) DbHooks.getScenario().log("  ... and " + (rentalHistory.size() - 3) + " more");
     }
 
     @Then("rental history should have at least {int} records")
@@ -47,9 +48,9 @@ public class RentalHistorySteps {
         rentalDao.connect();
         rentalHistory = rentalDao.getRentalHistorySorted(customerId, order);
         rentalDao.disconnect();
-        System.out.println("[RESULT] Rental history for customer " + customerId + " sorted " + order + ": " + rentalHistory.size() + " records");
-        System.out.println("  [FIRST] " + rentalHistory.get(0).get("rental_date"));
-        System.out.println("  [LAST] " + rentalHistory.get(rentalHistory.size()-1).get("rental_date"));
+        DbHooks.getScenario().log("[RESULT] Rental history for customer " + customerId + " sorted " + order + ": " + rentalHistory.size() + " records");
+        DbHooks.getScenario().log("  [FIRST] " + rentalHistory.get(0).get("rental_date"));
+        DbHooks.getScenario().log("  [LAST] " + rentalHistory.get(rentalHistory.size()-1).get("rental_date"));
     }
 
     @Then("first rental date should not be null")
