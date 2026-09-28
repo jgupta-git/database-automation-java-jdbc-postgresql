@@ -55,6 +55,7 @@ public class RentalDao {
     }
 
     public List<Map<String, Object>> getRentalHistorySorted(int customerId, String order) throws SQLException {
+        String orderClause = "ascending".equalsIgnoreCase(order) ? "ASC" : "DESC";
         String sql = "SELECT c.first_name || ' ' || c.last_name AS full_name, " +
                      "r.rental_date, f.title, ct.name AS category " +
                      "FROM rental r " +
@@ -64,7 +65,7 @@ public class RentalDao {
                      "JOIN film_category fc USING (film_id) " +
                      "JOIN category ct USING (category_id) " +
                      "WHERE c.customer_id = ? " +
-                     "ORDER BY r.rental_date " + order;
+                     "ORDER BY r.rental_date " + orderClause;
 
         List<Map<String, Object>> results = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

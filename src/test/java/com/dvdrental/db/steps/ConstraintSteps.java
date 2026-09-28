@@ -15,7 +15,7 @@ public class ConstraintSteps {
         try {
             Class.forName(DbConfig.getDriver());
             connection = DriverManager.getConnection(DbConfig.getUrl(), DbConfig.getUser(), DbConfig.getPassword());
-            String sql = "INSERT INTO rental (inventory_id, customer_id, return_date) VALUES (1, 99999, NOW())";
+            String sql = "INSERT INTO rental (inventory_id, customer_id, rental_date) VALUES (1, 999999, NOW())";
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
@@ -27,9 +27,10 @@ public class ConstraintSteps {
 
     @Then("foreign key constraint should be violated")
     public void foreign_key_constraint_violated() {
-        assertNotNull("Expected FK violation exception", lastException);
-        assertTrue("Expected FK violation message",
-                   lastException.getMessage().contains("foreign key") || lastException.getMessage().contains("constraint"));
+        assertNotNull("Expected FK violation exception, but no exception was thrown", lastException);
+        String msg = lastException.getMessage().toLowerCase();
+        assertTrue("Expected FK violation, got: " + msg,
+                   msg.contains("foreign key") || msg.contains("violates") || msg.contains("fk_rental"));
         try { if (connection != null) connection.close(); } catch (SQLException e) {}
     }
 
