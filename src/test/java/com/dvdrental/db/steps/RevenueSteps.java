@@ -4,6 +4,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import com.dvdrental.db.dao.RevenueDao;
 import com.dvdrental.db.hooks.DbHooks;
+import com.dvdrental.db.config.ExtentReportsManager;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -23,7 +24,7 @@ public class RevenueSteps {
             output.append("  [").append(i+1).append("] ").append(row.get("category")).append(" = $").append(row.get("total_revenue")).append("\n");
         }
         if (revenueData.size() > 3) output.append("  ... and ").append(revenueData.size() - 3).append(" more");
-        DbHooks.getScenario().attach(output.toString(), "text/plain", "revenue_by_category");
+        ExtentReportsManager.logInfo(output.toString());
     }
 
     @Then("revenue data should have {int} categories")
